@@ -8,10 +8,10 @@ FETCH=fetch
 
 CFLAGS?=-DNDEBUG -O3
 
-all: .INIT write_graphite.la
+all: .INIT write_istatd.la
 
 install: all
-	$(LIBTOOL) --mode=install /usr/bin/install -c write_graphite.la \
+	$(LIBTOOL) --mode=install /usr/bin/install -c write_istatd.la \
 		$(COLLECTD_PREFIX)/lib/collectd
 	$(LIBTOOL) --finish \
 		$(COLLECTD_PREFIX)/lib/collectd
@@ -19,7 +19,7 @@ install: all
 clean:
 	rm -rf .libs
 	rm -rf build
-	rm -f write_graphite.la
+	rm -f write_istatd.la
 
 distclean: clean
 	rm -rf work
@@ -42,12 +42,12 @@ distclean: clean
 		fi ; \
 	fi )
 
-write_graphite.la: build/write_graphite.lo
+write_istatd.la: build/write_istatd.lo
 	$(LIBTOOL) --tag=CC --mode=link gcc -Wall -Werror $(CFLAGS) -module \
 		-avoid-version -o $@ -rpath $(COLLECTD_PREFIX)/lib/collectd \
-		-lpthread build/write_graphite.lo
+		-lpthread build/write_istatd.lo
 
-build/write_graphite.lo: src/write_graphite.c
+build/write_istatd.lo: src/write_istatd.c
 	$(LIBTOOL) --mode=compile gcc -DHAVE_CONFIG_H -I src \
 		-I $(COLLECTD_SRC)/src -Wall -Werror $(CFLAGS) -MD -MP -c \
-		-o $@ src/write_graphite.c
+		-o $@ src/write_istatd.c

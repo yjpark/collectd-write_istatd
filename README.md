@@ -1,14 +1,16 @@
-write\_graphite
+write\_istatd
 ==============
 
 An output plugin for [collectd](http://collectd.org).
 
-*NOTE* This work has been merged into [collectd](http://collectd.org/) as of version 5.1. I strongly suggest using the native client, as octo has done great things with it and I no longer plan on maintaining this code. Thanks!
+*NOTE* The code is a mirror of write\_graphite plugin in [collectd](http://collectd.org/). The only different is the in istatd, the timestamp is expected to be BEFORE value.
+
+- https://github.com/imvu-open/istatd/wiki/Recording-counters
 
 Description
 -----------
 
-The write\_graphite plugin sends data to [Carbon](http://graphite.wikidot.com/carbon), the [Graphite](http://graphite.wikidot.com) backend. Data is sent in 4K blocks over TCP to Carbon. I could possibly have named this plugin write\_carbon.
+The write\_istatd plugin sends data to [istatd](https://github.com/imvu-open/istatd) Data is sent in 4K blocks over TCP to istatd.
 
 
 Installation
@@ -16,8 +18,8 @@ Installation
 
 First, modify the variables at the top of the Makefile to fit your system. (I use FreeBSD.) Then continue making the project as usual. During the initial make, collectd will be downloaded and configured to provide the neccesary libtool script.
 
-    $ git clone git@github.com:jssjr/collectd-write_graphite.git
-    $ cd collectd-write_graphite
+    $ git clone git@github.com:yjpark/collectd-write_istatd.git
+    $ cd collectd-write_istatd
     $ make
     $ sudo make install
 
@@ -27,11 +29,11 @@ Configuration
 
 Enable the plugin in collectd.conf by adding:
 
-    LoadPlugin write_graphite
+    LoadPlugin write_istatd
 
 Configure the plugin to match your carbon configuration.
 
-    <Plugin write_graphite>
+    <Plugin write_istatd>
       <Carbon>
         Host "localhost"
         Port "2003"
@@ -57,7 +59,7 @@ Restart collectd to load the new plugin.
 
 *    Postfix
 
-     The postfix string appended to the hostname sent to Carbon.
+     The postfix string appended to the hostname sent to istatd.
 
 *    DotCharacter
 
